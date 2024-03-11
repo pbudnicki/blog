@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "http://pbudnicki.github.io/blog",
+  "homepage": "https://pbudnicki.github.io/blog",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
