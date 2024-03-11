@@ -21,4 +21,3 @@ export const useRepliesQuery = ({ queryParameters, shouldFetchData, postId }: Us
     },
     enabled: shouldFetchData && postId !== undefined,
   })
-// póki co nie wiem jak to powinno działac

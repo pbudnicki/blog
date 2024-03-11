@@ -25,6 +25,6 @@ const Container = styled.button`
   text-transform: capitalize;
 
   &:hover {
-    background-color: #2980b9; /* Niestandardowy kolor tła po najechaniu */
+    background-color: #2980b9;
   }
 `
