@@ -8,8 +8,7 @@ import { spacing, TRANSLATIONS } from '../../constants'
 import { Button } from '../../components'
 
 import { Post } from './components'
-import { PostDto, RepliesResponseDto } from './api/services'
-import { getReplies, usePostsQuery } from './api'
+import { getReplies, PostDto, RepliesResponseDto, usePostsQuery } from './api'
 
 const NUMBER_OF_REPLIES_TO_LOAD = 1
 
