@@ -1,5 +1,4 @@
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import { Interweave } from 'interweave'
 import styled from 'styled-components'
 
 import { spacing } from '../../../constants'
@@ -8,13 +7,11 @@ type ReplyProps = {
   content: string
 }
 
-export const Reply = ({ content }: ReplyProps) => {
-  return (
-    <Container>
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
-    </Container>
-  )
-}
+export const Reply = ({ content }: ReplyProps) => (
+  <Container>
+    <Interweave content={content} />
+  </Container>
+)
 
 const Container = styled.div`
   box-shadow: 0px 2px 4px rgba(164, 164, 164, 0.25);

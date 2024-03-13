@@ -26,7 +26,11 @@ export const LandingPage = () => {
   const loadRepliesSequentiallyIfTheyExist = async (posts: PostDto[]) => {
     for (const post of posts) {
       if (post.discussion.comment_count >= replyOffset) {
-        const replies = await getRepliesForPost({ postId: post.ID, number: NUMBER_OF_REPLIES_TO_LOAD, offset: replyOffset })
+        const replies = await getRepliesForPost({
+          postId: post.ID,
+          number: NUMBER_OF_REPLIES_TO_LOAD,
+          offset: replyOffset,
+        })
         queryClient.setQueryData(
           [QueryKeys.Replies, post.ID],
           (data: AxiosResponse<RepliesResponseDto, unknown> | undefined) => {
@@ -58,14 +62,18 @@ export const LandingPage = () => {
     <PostsWithLoadMoreButton>
       <Posts>
         {posts.map(post => (
-          <Post key={post.title} title={post.title} image={post.featured_image} id={post.ID} replyOffset={replyOffset} />
+          <Post
+            key={post.title}
+            title={post.title}
+            image={post.featured_image}
+            id={post.ID}
+            replyOffset={replyOffset}
+          />
         ))}
       </Posts>
       {/* TODO: add loader when replies are loading*/}
       {/* TODO: disable button when there is no more replies to fetch in every post*/}
-      <Button onClick={() => loadRepliesSequentiallyIfTheyExist(posts)}>
-        {TRANSLATIONS.posts['load-comments']}
-      </Button>
+      <Button onClick={() => loadRepliesSequentiallyIfTheyExist(posts)}>{TRANSLATIONS.posts['load-comments']}</Button>
     </PostsWithLoadMoreButton>
   )
 
