@@ -7,7 +7,8 @@ export const TRANSLATIONS = {
     'something-went-wrong': 'something went wrong',
   },
   posts: {
-    'welcome-to-my-recruitment-task': 'Welcome to my recruitment task',
     'load-comments': 'load comments',
+    'there-are-no-more-comments': 'There are no more comments to load.',
+    'welcome-to-my-recruitment-task': 'Welcome to my recruitment task',
   },
 }

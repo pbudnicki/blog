@@ -1,4 +1,5 @@
-import React from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import styled from 'styled-components'
 
 import { spacing } from '../../../constants'
@@ -8,7 +9,11 @@ type ReplyProps = {
 }
 
 export const Reply = ({ content }: ReplyProps) => {
-  return <Container dangerouslySetInnerHTML={{ __html: content }} />
+  return (
+    <Container>
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+    </Container>
+  )
 }
 
 const Container = styled.div`

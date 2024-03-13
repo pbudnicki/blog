@@ -20,6 +20,9 @@ const postDtoSchema = z.object({
   title: z.string(),
   ID: z.number(),
   featured_image: z.string(),
+  discussion: z.object({
+    comment_count: z.number(),
+  }),
 })
 
 const postsResponseDtoSchema = z.object({
@@ -58,6 +61,7 @@ export type ReplyDto = z.infer<typeof replyDtoSchema>
 
 const repliesResponseDtoSchema = z.object({
   comments: z.array(replyDtoSchema),
+  found: z.number(),
 })
 
 export type RepliesResponseDto = z.infer<typeof repliesResponseDtoSchema>

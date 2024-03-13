@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 
 import { useRepliesQuery } from '../api'
@@ -10,10 +9,12 @@ type PostProps = {
   title: string
   id: number
   image: string
+  replyOffset: number
 }
 
-export const Post = ({ id, image, title }: PostProps) => {
+export const Post = ({ id, image, title, replyOffset }: PostProps) => {
   const repliesQuery = useRepliesQuery({ queryParameters: { number: 1 }, shouldFetchData: false, postId: id })
+
   const renderReplies = () => {
     if (repliesQuery.isFetching) {
       return <p>{TRANSLATIONS.common.loading}...</p>
@@ -26,11 +27,21 @@ export const Post = ({ id, image, title }: PostProps) => {
     }
   }
 
+  const renderInformationAboutNoCommentsLeft = () => {
+    if (repliesQuery.data) {
+      if (repliesQuery.data.data.found <= replyOffset) {
+        // TODO: add better styles for this warning
+        return <p>{TRANSLATIONS.posts['there-are-no-more-comments']}</p>
+      }
+    }
+  }
+
   return (
     <Container>
       <Title title={title}>{title}</Title>
       <Image src={image} alt={title} loading='lazy' />
       <div>{renderReplies()}</div>
+      {renderInformationAboutNoCommentsLeft()}
     </Container>
   )
 }

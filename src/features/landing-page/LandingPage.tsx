@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 import styled from 'styled-components'
@@ -19,22 +19,24 @@ export const LandingPage = () => {
   const [replyOffset, setReplyOffset] = useState<number>(0)
 
   const getRepliesForPost = async ({ postId, number, offset }: { postId: number; number: number; offset: number }) => {
-    const comments = await getReplies({ postId, queryParameters: { number, offset } })
-    return comments
+    const replies = await getReplies({ postId, queryParameters: { number, offset } })
+    return replies
   }
 
-  const loadRepliesSequentially = async (postIds: number[]) => {
-    for (const postId of postIds) {
-      const comments = await getRepliesForPost({ postId, number: NUMBER_OF_REPLIES_TO_LOAD, offset: replyOffset })
-      queryClient.setQueryData(
-        [QueryKeys.Replies, postId],
-        (data: AxiosResponse<RepliesResponseDto, unknown> | undefined) => {
-          if (data) {
-            comments.data.comments = data.data.comments.concat(comments.data.comments)
+  const loadRepliesSequentiallyIfTheyExist = async (posts: PostDto[]) => {
+    for (const post of posts) {
+      if (post.discussion.comment_count >= replyOffset) {
+        const replies = await getRepliesForPost({ postId: post.ID, number: NUMBER_OF_REPLIES_TO_LOAD, offset: replyOffset })
+        queryClient.setQueryData(
+          [QueryKeys.Replies, post.ID],
+          (data: AxiosResponse<RepliesResponseDto, unknown> | undefined) => {
+            if (data) {
+              replies.data.comments = data.data.comments.concat(replies.data.comments)
+            }
+            return replies
           }
-          return comments
-        }
-      )
+        )
+      }
     }
     setReplyOffset(replyOffset => replyOffset + NUMBER_OF_REPLIES_TO_LOAD)
   }
@@ -56,10 +58,12 @@ export const LandingPage = () => {
     <PostsWithLoadMoreButton>
       <Posts>
         {posts.map(post => (
-          <Post key={post.title} title={post.title} image={post.featured_image} id={post.ID} />
+          <Post key={post.title} title={post.title} image={post.featured_image} id={post.ID} replyOffset={replyOffset} />
         ))}
       </Posts>
-      <Button onClick={() => loadRepliesSequentially(posts.map(post => post.ID))}>
+      {/* TODO: add loader when replies are loading*/}
+      {/* TODO: disable button when there is no more replies to fetch in every post*/}
+      <Button onClick={() => loadRepliesSequentiallyIfTheyExist(posts)}>
         {TRANSLATIONS.posts['load-comments']}
       </Button>
     </PostsWithLoadMoreButton>
