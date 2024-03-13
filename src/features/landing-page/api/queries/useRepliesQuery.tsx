@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { QueryKeys } from '../../../../routes'
-import { getReplies, RepliesQueryParameters } from '../services'
+import { getReplies } from '../services'
+import { RepliesQueryParameters } from '../types'
 
 type UseRepliesQueryProps = {
   queryParameters: RepliesQueryParameters

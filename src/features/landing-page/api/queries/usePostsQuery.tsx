@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { QueryKeys } from '../../../../routes'
-import { getPosts, PostsQueryParameters } from '../services'
+import { getPosts } from '../services'
+import { PostsQueryParameters } from '../types'
 
 type UsePostsQueryProps = {
   queryParameters: PostsQueryParameters
