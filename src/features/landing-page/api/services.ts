@@ -2,19 +2,7 @@ import { z } from 'zod'
 
 import { axiosApiInstance } from '../../../configs/axios'
 import { API_ROUTES } from '../../../routes'
-
-// TODO: move to utils and add unit tests
-function buildQueryParamsString<T extends Record<string, string | number | boolean>>(queryParameters: T): string {
-  const queryParams = new URLSearchParams()
-
-  Object.entries(queryParameters).forEach(([key, value]) => {
-    if (value !== undefined) {
-      queryParams.append(key, value.toString())
-    }
-  })
-
-  return queryParams.toString()
-}
+import { buildQueryParamsString } from '../../../utils'
 
 const postDtoSchema = z.object({
   title: z.string(),
